@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, TextInput, View, ToastAndroid} from 'react-native'
 import CustomButton from "../button/button.component";
+import {StatusBar} from "expo-status-bar";
+
 
 const StartScreenComponent = () => {
 	const [prices, setPrices] = useState({originalPrice: "", discountPercentage: ""});
@@ -45,41 +47,44 @@ const StartScreenComponent = () => {
 	};
 
 	return (
-		<View>
+		<View style={styles.container}>
 			<View>
-				<Text style={{...styles.margin, marginBottom: 0}}>Original Price</Text>
-				<TextInput style={{...styles.textInput, ...styles.margin}} placeholder="Original Price"
-									 value={prices.originalPrice}
-									 keyboardType="numeric" onChangeText={(text) => {
-					handleTextInputChange(text, "originalPrice")
-				}}/>
-				<Text style={{...styles.margin, marginBottom: 0}}>Discount Percentage</Text>
-				<TextInput style={{...styles.textInput, ...styles.margin}} placeholder="Discount Percentage"
-									 value={prices.discountPercentage}
-									 keyboardType="numeric" onChangeText={(text) => {
-					handleTextInputChange(text, "discountPercentage")
-				}}/>
-			</View>
-			<View style={{...styles.justifyContent, ...styles.margin}}>
 				<View>
-					<Text style={styles.subHeading}>You Save</Text>
-					<Text>{results.youSave ? `$${results.youSave}` : "..."}</Text>
-				</View>
-				<View>
-					<Text style={styles.subHeading}>Final Price</Text>
-					<Text>{results.finalPrice ? `$${results.finalPrice}` : "..."}</Text>
-				</View>
-			</View>
-			<View>
-				<View style={styles.margin}>
-					<CustomButton disabled={isDisabled} disabledColor="lightgray"
-												buttonText="Save" colorB="gray" handlePress={addToHistory}/>
-				</View>
-				<View style={styles.margin}>
-					<CustomButton buttonText="View History" colorB="royalblue" handlePress={() => {
+					<Text style={{...styles.margin, marginBottom: 0}}>Original Price</Text>
+					<TextInput style={{...styles.textInput, ...styles.margin}} placeholder="Original Price"
+										 value={prices.originalPrice}
+										 keyboardType="numeric" onChangeText={(text) => {
+						handleTextInputChange(text, "originalPrice")
+					}}/>
+					<Text style={{...styles.margin, marginBottom: 0}}>Discount Percentage</Text>
+					<TextInput style={{...styles.textInput, ...styles.margin}} placeholder="Discount Percentage"
+										 value={prices.discountPercentage}
+										 keyboardType="numeric" onChangeText={(text) => {
+						handleTextInputChange(text, "discountPercentage")
 					}}/>
 				</View>
+				<View style={{...styles.justifyContent, ...styles.margin}}>
+					<View>
+						<Text style={styles.subHeading}>You Save</Text>
+						<Text>{results.youSave ? `$${results.youSave}` : "..."}</Text>
+					</View>
+					<View>
+						<Text style={styles.subHeading}>Final Price</Text>
+						<Text>{results.finalPrice ? `$${results.finalPrice}` : "..."}</Text>
+					</View>
+				</View>
+				<View>
+					<View style={styles.margin}>
+						<CustomButton disabled={isDisabled} disabledColor="lightgray"
+													buttonText="Save" colorB="gray" handlePress={addToHistory}/>
+					</View>
+					<View style={styles.margin}>
+						<CustomButton buttonText="View History" colorB="royalblue" handlePress={() => {
+						}}/>
+					</View>
+				</View>
 			</View>
+			<StatusBar style="auto"/>
 		</View>
 	);
 };
@@ -100,6 +105,12 @@ const styles = StyleSheet.create({
 	},
 	subHeading: {
 		fontWeight: "bold"
+	},
+	container: {
+		flex: 1,
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'center',
 	}
 });
 

@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
 import StartScreenComponent from "./components/start-screen/start-screen.component";
 
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
+import HistoryScreenComponent from "./components/history-screen/history-screen-component";
+import {Provider as PaperProvider} from 'react-native-paper';
+
 
 export default function App() {
-	const [completeDiscountRecord, setCompleteDiscountRecord] = useState([]);
 
 	const Stack = createStackNavigator();
 
@@ -14,17 +15,24 @@ export default function App() {
 		return (
 			<Stack.Navigator>
 				<Stack.Screen
-					name="Start Screen"
+					name="startScreen"
 					component={StartScreenComponent}
-					options={{headerShown: true}}
+					options={{headerShown: true, headerTitle: "Perform Calculation", headerLeft: HeaderBackButton}}
+				/>
+				<Stack.Screen
+					name="historyScreen"
+					component={HistoryScreenComponent}
+					options={{headerShown: true, headerTitle: "Calculations History", headerLeft: HeaderBackButton}}
 				/>
 			</Stack.Navigator>
 		);
 	};
 
 	return (
-		<NavigationContainer>
-			<StackHistory/>
-		</NavigationContainer>
+		<PaperProvider>
+			<NavigationContainer>
+				<StackHistory/>
+			</NavigationContainer>
+		</PaperProvider>
 	);
 }

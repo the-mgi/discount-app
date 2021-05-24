@@ -4,10 +4,11 @@ import CustomButton from "../button/button.component";
 import {StatusBar} from "expo-status-bar";
 
 
-const StartScreenComponent = () => {
+const StartScreenComponent = ({navigation}) => {
 	const [prices, setPrices] = useState({originalPrice: "", discountPercentage: ""});
 	const [results, setResults] = useState({youSave: "", finalPrice: ""});
 	const [isDisabled, setIsDisabled] = useState(true);
+	const [completeDiscountRecord, setCompleteDiscountRecord] = useState([]);
 
 	const showToast = (text = "Something went wrong") => {
 		ToastAndroid.show(text, ToastAndroid.SHORT);
@@ -34,7 +35,9 @@ const StartScreenComponent = () => {
 
 		if (originalPrice && discountPercentage) {
 			const offPrice = (discountPercentage * originalPrice) / 100;
-			setResults({youSave: offPrice.toFixed(2), finalPrice: (originalPrice - offPrice).toFixed(2)});
+			const youSave = offPrice.toFixed(2);
+			const finalPrice = (originalPrice - offPrice).toFixed(2);
+			setResults({youSave, finalPrice});
 			setIsDisabled(false);
 			return;
 		}
@@ -43,7 +46,12 @@ const StartScreenComponent = () => {
 	}, [prices]);
 
 	const addToHistory = () => {
-
+		setCompleteDiscountRecord([...completeDiscountRecord, {
+			originalPrice: prices.originalPrice,
+			discountPercentage: prices.discountPercentage,
+			finalPrice: results.finalPrice
+		}]);
+		setIsDisabled(true);
 	};
 
 	return (
@@ -80,6 +88,7 @@ const StartScreenComponent = () => {
 					</View>
 					<View style={styles.margin}>
 						<CustomButton buttonText="View History" colorB="royalblue" handlePress={() => {
+							navigation.navigate("historyScreen", {record: completeDiscountRecord})
 						}}/>
 					</View>
 				</View>

@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, TextInput, View, ToastAndroid} from 'react-native'
+import React, {useEffect, useLayoutEffect, useState} from 'react';
+import {StyleSheet, Text, TextInput, ToastAndroid, View} from 'react-native'
 import CustomButton from "../button/button.component";
 import {StatusBar} from "expo-status-bar";
 
@@ -45,6 +45,17 @@ const StartScreenComponent = ({navigation}) => {
 		setIsDisabled(true);
 	}, [prices]);
 
+	useLayoutEffect(() => {
+		navigation.setOptions({
+			headerRight: () => (
+				<View style={{marginRight: 10}}><CustomButton handlePress={() => {
+					navigation.navigate("historyScreen", {record: completeDiscountRecord})
+				}} buttonText="History" colorB="royalblue"
+																											width={120} height={40} borderRadius={5}/></View>
+			),
+		});
+	}, [navigation, completeDiscountRecord]);
+
 	const addToHistory = () => {
 		setCompleteDiscountRecord([...completeDiscountRecord, {
 			originalPrice: prices.originalPrice,
@@ -83,13 +94,8 @@ const StartScreenComponent = ({navigation}) => {
 				</View>
 				<View>
 					<View style={styles.margin}>
-						<CustomButton disabled={isDisabled} disabledColor="lightgray"
-													buttonText="Save" colorB="gray" handlePress={addToHistory}/>
-					</View>
-					<View style={styles.margin}>
-						<CustomButton buttonText="View History" colorB="royalblue" handlePress={() => {
-							navigation.navigate("historyScreen", {record: completeDiscountRecord})
-						}}/>
+						<CustomButton disabled={isDisabled} disabledColor="#a5bafa"
+													buttonText="Save" colorB="royalblue" handlePress={addToHistory}/>
 					</View>
 				</View>
 			</View>

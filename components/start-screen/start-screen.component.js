@@ -45,13 +45,17 @@ const StartScreenComponent = ({navigation}) => {
 		setIsDisabled(true);
 	}, [prices]);
 
+	const navigate = () => {
+		navigation.navigate("historyScreen", {record: completeDiscountRecord});
+		setCompleteDiscountRecord([]);
+	};
+
 	useLayoutEffect(() => {
 		navigation.setOptions({
 			headerRight: () => (
 				<View style={{marginRight: 10}}><CustomButton handlePress={() => {
-					navigation.navigate("historyScreen", {record: completeDiscountRecord})
-				}} buttonText="History" colorB="royalblue"
-																											width={120} height={40} borderRadius={5}/></View>
+					navigate();
+				}} buttonText="History" colorB="royalblue" width={120} height={40} borderRadius={5}/></View>
 			),
 		});
 	}, [navigation, completeDiscountRecord]);
